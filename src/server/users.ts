@@ -1,6 +1,5 @@
 'use server';
 import { auth } from '@/lib/auth';
-import { authClient } from '@/lib/auth-client';
 
 interface SignInResponse {
   success: boolean;
@@ -51,11 +50,4 @@ export const signUp = async (email: string, password: string, name: string) => {
       message: e.message || 'An unknown error occurred',
     };
   }
-};
-
-export const signInGoogle = async () => {
-  await authClient.signIn.social({
-    provider: 'google',
-    callbackURL: '/dashboard',
-  });
 };

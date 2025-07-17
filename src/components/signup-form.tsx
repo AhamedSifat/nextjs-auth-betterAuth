@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { signUp, signInGoogle } from '@/server/users';
+import { signUp } from '@/server/users';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -27,6 +27,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
+import { authClient } from '@/lib/auth-client';
 export function SignUpForm({
   className,
   ...props
@@ -68,6 +69,13 @@ export function SignUpForm({
     }
     setIsLoading(false);
   }
+
+  const signInGoogle = async () => {
+    await authClient.signIn.social({
+      provider: 'google',
+      callbackURL: '/dashboard',
+    });
+  };
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>

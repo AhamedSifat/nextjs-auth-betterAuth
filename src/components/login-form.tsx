@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { signIn, signInGoogle } from '@/server/users';
+import { signIn } from '@/server/users';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -26,6 +26,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
+import { authClient } from '@/lib/auth-client';
 export function LoginForm({
   className,
   ...props
@@ -59,6 +60,13 @@ export function LoginForm({
     }
     setIsLoading(false);
   }
+
+  const signInGoogle = async () => {
+    await authClient.signIn.social({
+      provider: 'google',
+      callbackURL: '/dashboard',
+    });
+  };
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
